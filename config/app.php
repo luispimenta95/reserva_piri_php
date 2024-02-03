@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt-BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'pt-BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'pt-BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -181,8 +182,21 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
-    ])->toArray(),
+    'aliases' => Facade::defaultAliases()->merge([])->toArray(),
 
+
+    // Variaveis do PDF
+    'empresa' => env('EMPRESA'),
+    'nome' => env('NOME_DONA'),
+    'telefone' => env('CELULAR_DONA'),
+    'cpf' => env('CPF_DONA'),
+    'cidade' => env('CIDADE'),
+    'uf' => env('UF'),
+    'fracao' => env('FRACAO'),
+    'numero' => env('NUMERO_UNIDADE'),
+    'bloco' => env('BLOCO'),
+    'tipo' => env('TIPO_UNIDADE'),
+    'email' => env('EMAIL_DONA')
+
+    //FIM VARIAVEIS DO PDF
 ];
