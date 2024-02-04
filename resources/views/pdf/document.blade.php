@@ -43,6 +43,8 @@
     <h5 class="text-center"><u>Solicitação de reserva</u></h5>
 
     <p> Eu, {{ $nome }} proprietário do apartamento acima referenciado, solícito a reserva para os seguintes hóspedes na data de {{$dataInicial}} à {{$dataFinal}}. </p>
+    <!-- <img src="{{URL('images/assinatura.jpg')}}" alt="Image" width="300" height="250" />
+-->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

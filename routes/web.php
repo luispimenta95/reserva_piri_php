@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\HostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,5 @@ Route::get('/', function () {
 });
 
 Route::post('/post', [PDFController::class, 'store']);
+Route::get('/reserva', [HostController::class, 'index']);
+Route::post('/iniciar', [HostController::class, 'iniciarReserva']);

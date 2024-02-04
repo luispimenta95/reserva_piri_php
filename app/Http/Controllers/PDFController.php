@@ -47,9 +47,7 @@ class PDFController extends Controller
             'dataFinal' => $dataFim,
             'email' => $email
         ];
-
-        $pdf = PDF::loadView('pdf.document', $data);
-        return $pdf->stream('document.pdf');
+        return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data)->stream();
     }
     private function getDataAtual(): String
     {
@@ -61,108 +59,5 @@ class PDFController extends Controller
             'Novembro', 'Dezembro'
         ];
         return $dia . ' de ' . $months[$mes - 1] . ' de ' . $ano;
-    }
-    public function index()
-    {
-        $hospedes = Hospede::all();
-
-        return view('hospedes.index', compact('hospedes'));
-    }
-
-    /**
-     * Show the step One Form for creating a new hospede.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createStepOne(Request $request)
-    {
-        $hospede = $request->session()->get('hospede');
-
-        return view('hospedes.create-step-one', compact('hospede'));
-    }
-
-    /**  
-     * Post Request to store step1 info in session
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function postCreateStepOne(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|unique:hospedes',
-            'amount' => 'required|numeric',
-            'description' => 'required',
-        ]);
-
-        if (empty($request->session()->get('hospede'))) {
-            $hospede = new Hospede();
-            $hospede->fill($validatedData);
-            $request->session()->put('hospede', $hospede);
-        } else {
-            $hospede = $request->session()->get('hospede');
-            $hospede->fill($validatedData);
-            $request->session()->put('hospede', $hospede);
-        }
-
-        return redirect()->route('hospedes.create.step.two');
-    }
-
-    /**
-     * Show the step One Form for creating a new hospede.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createStepTwo(Request $request)
-    {
-        $hospede = $request->session()->get('hospede');
-
-        return view('hospedes.create-step-two', compact('hospede'));
-    }
-
-    /**
-     * Show the step One Form for creating a new hospede.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function postCreateStepTwo(Request $request)
-    {
-        $validatedData = $request->validate([
-            'stock' => 'required',
-            'status' => 'required',
-        ]);
-
-        $hospede = $request->session()->get('hospede');
-        $hospede->fill($validatedData);
-        $request->session()->put('hospede', $hospede);
-
-        return redirect()->route('hospedes.create.step.three');
-    }
-
-    /**
-     * Show the step One Form for creating a new hospede.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createStepThree(Request $request)
-    {
-        $hospede = $request->session()->get('hospede');
-
-        return view('hospedes.create-step-three', compact('hospede'));
-    }
-
-    /**
-     * Show the step One Form for creating a new hospede.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function postCreateStepThree(Request $request)
-    {
-        $hospede = $request->session()->get('hospede');
-        $hospede->save();
-
-        $request->session()->forget('hospede');
-
-        return redirect()->route('hospedes.index');
     }
 }

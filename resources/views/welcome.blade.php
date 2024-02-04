@@ -23,6 +23,8 @@
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <h3 class="text-center text-danger"><b>Add New Post</b> </h3>
+                <img src="{{URL('images/assinatura.jpg')}}" alt="Image" width="300" height="250" />
+
                 <div class="form-group">
                     <form action="/post" method="post" enctype="multipart/form-data">
                         @csrf
