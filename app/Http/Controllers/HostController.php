@@ -15,6 +15,9 @@ class HostController extends Controller
     {
         return view('hospedes.create-step-two');
     }
-
+    public function dadosHospedes(Request $request)
+    {
+        return view('hospedes.create-step-three');
+    }
     //
 }
