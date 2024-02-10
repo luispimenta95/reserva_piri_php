@@ -62,7 +62,18 @@
             @endforeach
         </tbody>
     </table>
-    <!-- <img src="{{URL('images/assinatura.jpg')}}" alt="Image" width="300" height="250" />
+    <br>
+
+    <div class="text-center">
+        <img src="data:image/svg+xml;base64,<?php echo base64_encode(file_get_contents(base_path(config('app.assinatura')))); ?>" width="300">
+        <p>Assinatura do propietário</p>
+
+    </div>
+
+
+
+    <!--
+    <img src="{{ asset('images/assinatura.jpg') }}" />
 -->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
