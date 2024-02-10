@@ -12,7 +12,5 @@ class Hospede extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'amount', 'description', 'status', 'stock'
-    ];
+    protected $fillable = ['nome', 'cpf', 'telefone', 'nascimento', 'email'];
 }
