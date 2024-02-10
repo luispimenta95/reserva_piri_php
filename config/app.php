@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Recife',
 
     /*
     |--------------------------------------------------------------------------
@@ -196,7 +196,8 @@ return [
     'numero' => env('NUMERO_UNIDADE'),
     'bloco' => env('BLOCO'),
     'tipo' => env('TIPO_UNIDADE'),
-    'email' => env('EMAIL_DONA')
+    'email' => env('EMAIL_DONA'),
+    'assinatura' => env('PATH_ASSINATURA')
 
     //FIM VARIAVEIS DO PDF
 ];

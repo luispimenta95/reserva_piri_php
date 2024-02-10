@@ -43,6 +43,38 @@
     <h5 class="text-center"><u>Solicitação de reserva</u></h5>
 
     <p> Eu, {{ $nome }} proprietário do apartamento acima referenciado, solícito a reserva para os seguintes hóspedes na data de {{$dataInicial}} à {{$dataFinal}}. </p>
+
+    <br>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td scope="col">Nome:</td>
+                <td scope="col">CPF:</td>
+                <td scope="col">Data de nascimento:</td>
+
+            </tr>
+            @foreach($hospedes as $hospede)
+            <tr>
+                <td> {{ $hospede['nome'] }} </td>
+                <td> {{ $hospede['cpf'] }} </td>
+                <td> {{ $hospede['nascimento'] }} </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <br>
+
+    <div class="text-center">
+        <img src="data:image/svg+xml;base64,<?php echo base64_encode(file_get_contents(base_path(config('app.assinatura')))); ?>" width="300">
+        <p>Assinatura do propietário</p>
+
+    </div>
+
+
+
+    <!--
+    <img src="{{ asset('images/assinatura.jpg') }}" />
+-->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

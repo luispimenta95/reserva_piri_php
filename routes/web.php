@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PDFController;
+use App\Http\Controllers\HostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +14,5 @@ use App\Http\Controllers\PDFController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::post('/post', [PDFController::class, 'store']);
+Route::get('/', [HostController::class, 'index']);
+Route::post('/gerar', [HostController::class, 'receberDados']);
