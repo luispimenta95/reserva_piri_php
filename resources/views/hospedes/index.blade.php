@@ -2,7 +2,6 @@
 <html lang="en">
 @include('layout.header')
 
-
 <body>
 
     <div class="container">
