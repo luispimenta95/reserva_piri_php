@@ -9,15 +9,35 @@ class HostController extends Controller
 {
     public function index()
     {
-        return view('hospedes.create-step-one');
+        return view('hospedes.index');
     }
-    public function iniciarReserva(Request $request)
+    public function receberDados(Request $request)
     {
-        return view('hospedes.create-step-two');
+        $controllerPdf = new PDFController();
+        $nome = $request->nome;
+        $cpf = $request->cpf;
+        $nascimento = $request->nascimento;
+        $email = $request->email;
+        $telefone = $request->telefone;
+
+
+
+        $hospedes = array();
+
+        for ($i = 0; $i < count($nome); $i++) {
+            $informacoes = [
+                'nome' => $nome[$i],
+                'cpf' => $cpf[$i],
+                'nascimento' => $nascimento[$i],
+                'email' => $email[$i],
+                'telefone' => $telefone[$i]
+            ];
+            // DB::table('hospedes')->insert($informacoes);
+            array_push($hospedes, $informacoes);
+        }
+        $data['dataInicial'] = $request->dataInicial;
+        $data['dataFinal'] = $request->dataFinal;
+        $data['hospedes'] = $hospedes;
+        return $controllerPdf->gerarPdf($data);
     }
-    public function dadosHospedes(Request $request)
-    {
-        return view('hospedes.create-step-three');
-    }
-    //
 }

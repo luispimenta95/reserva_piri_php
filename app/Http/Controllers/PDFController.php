@@ -12,40 +12,33 @@ use Carbon\Carbon;
 
 class PDFController extends Controller
 {
-    public function store(Request $request)
+    public function gerarPdf(array $params)
     {
-        $dataIni = date('d/m/Y', strtotime($request->dataIni));
-        $dataFim = date('d/m/Y', strtotime($request->dataFim));
-        $empresa = config('app.empresa');
-        $nome = config('app.nome');
-        $telefone = config('app.telefone');
-        $cpf = config('app.cpf');
-        $cidade = config('app.cidade');
-        $uf = config('app.uf');
-        $fracao = config('app.fracao');
-        $numero = config('app.numero');
-        $bloco = config('app.bloco');
-        $tipo = config('app.tipo');
-        $dia = $this->getDataAtual();
-        $email = config('app.email');
 
 
+
+        $hosts = array();
+        foreach ($params['hospedes'] as $hospede) {
+            $hospede['nascimento'] = date('d/m/Y', strtotime($hospede['nascimento']));
+            array_push($hosts, $hospede);
+        }
 
         $data = [
-            'empresa' => $empresa,
-            'nome' => $nome,
-            'telefone' => $telefone,
-            'cpf' => $cpf,
-            'cidade' => $cidade,
-            'uf' => $uf,
-            'fracao' => $fracao,
-            'numero' => $numero,
-            'bloco' => $bloco,
-            'tipo_quarto' => $tipo,
-            'dia' => $dia,
-            'dataInicial' => $dataIni,
-            'dataFinal' => $dataFim,
-            'email' => $email
+            'empresa' => config('app.empresa'),
+            'nome' => config('app.nome'),
+            'telefone' => config('app.telefone'),
+            'cpf' => config('app.cpf'),
+            'cidade' => config('app.cidade'),
+            'uf' => config('app.uf'),
+            'fracao' => config('app.fracao'),
+            'numero' => config('app.numero'),
+            'bloco' => config('app.bloco'),
+            'tipo_quarto' => config('app.tipo'),
+            'dia' =>  $this->getDataAtual(),
+            'dataInicial' =>  date('d/m/Y', strtotime($params['dataInicial'])),
+            'dataFinal' =>  date('d/m/Y', strtotime($params['dataFinal'])),
+            'email' => config('app.email'),
+            'hospedes' => $hosts
         ];
         return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data)->stream();
     }

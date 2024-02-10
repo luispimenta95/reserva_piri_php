@@ -43,6 +43,25 @@
     <h5 class="text-center"><u>Solicitação de reserva</u></h5>
 
     <p> Eu, {{ $nome }} proprietário do apartamento acima referenciado, solícito a reserva para os seguintes hóspedes na data de {{$dataInicial}} à {{$dataFinal}}. </p>
+
+    <br>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td scope="col">Nome:</td>
+                <td scope="col">CPF:</td>
+                <td scope="col">Data de nascimento:</td>
+
+            </tr>
+            @foreach($hospedes as $hospede)
+            <tr>
+                <td> {{ $hospede['nome'] }} </td>
+                <td> {{ $hospede['cpf'] }} </td>
+                <td> {{ $hospede['nascimento'] }} </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
     <!-- <img src="{{URL('images/assinatura.jpg')}}" alt="Image" width="300" height="250" />
 -->
     <!-- Optional JavaScript -->
