@@ -16,3 +16,5 @@ use App\Http\Controllers\HostController;
 
 Route::get('/', [HostController::class, 'index']);
 Route::post('/gerar', [HostController::class, 'receberDados']);
+Route::get('/reservas', [HostController::class, 'show']);
+Route::post('/detalhes/',  [HostController::class, 'detalhesReserva']);

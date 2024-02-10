@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as Database;
-
+use App\Models\Reserva;
 
 class HostController extends Controller
 {
@@ -51,9 +51,15 @@ class HostController extends Controller
         $informacoesReserva['dataFinal'] = $request->dataFinal;
         $informacoesReserva['hospedes'] = json_encode($idsHospedes);
 
-        Database::table('reserva')->insert($informacoesReserva);
+        Database::table('reservas')->insert($informacoesReserva);
 
         //Fim reserva
         return $app->gerarPdf($data);
+    }
+
+    public function show()
+    {
+        $reservas = Reserva::all();
+        return view('hospedes.reservas', ['reservas' => $reservas]);
     }
 }
