@@ -35,3 +35,30 @@ function removerLinha() {
         }
     });
 }
+
+function validateForm() {
+    var dataInicial = new Date(document.getElementById("dataInicial").value);
+    var dataFinal = new Date(document.getElementById("dataFinal").value);
+    var isValid = true;
+    $(".form-control").each(function () {
+        if ($(this).val() == "") {
+            mensagem = "Por favor, informe corretamente os dados dos hóspedes.";
+            isValid = false;
+        }
+    });
+    // Check if any date is invalid
+    if (isNaN(dataInicial.getTime()) || isNaN(dataFinal.getTime())) {
+        mensagem = "Por favor informe datas válidas.";
+        isValid = false;
+    }
+    // Compare the dates
+    if (dataInicial > dataFinal) {
+        mensagem = "A data de entrada não pode ser maior que a data de saída.";
+        isValid = false;
+    }
+    if (!isValid) {
+        alert(mensagem);
+    }
+
+    return isValid;
+}
