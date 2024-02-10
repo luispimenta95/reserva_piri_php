@@ -6,23 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use App\Http\Controllers\AppController;
 
 
 
 
-class PDFController extends Controller
+class AppController extends Controller
 {
     public function gerarPdf(array $params)
     {
-
-
-
-        $hosts = array();
-        foreach ($params['hospedes'] as $hospede) {
-            $hospede['nascimento'] = date('d/m/Y', strtotime($hospede['nascimento']));
-            array_push($hosts, $hospede);
-        }
-
         $data = [
             'empresa' => config('app.empresa'),
             'nome' => config('app.nome'),
@@ -38,7 +30,7 @@ class PDFController extends Controller
             'dataInicial' =>  date('d/m/Y', strtotime($params['dataInicial'])),
             'dataFinal' =>  date('d/m/Y', strtotime($params['dataFinal'])),
             'email' => config('app.email'),
-            'hospedes' => $hosts
+            'hospedes' => $params['hospedes']
         ];
         return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data)->stream();
     }
