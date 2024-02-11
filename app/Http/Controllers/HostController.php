@@ -63,7 +63,7 @@ class HostController extends Controller
 
     public function show()
     {
-        $reservas = Reserva::all();
+        $reservas = Reserva::paginate(15);
         return view('hospedes.reservas', ['reservas' => $reservas]);
     }
     public function downloadPdf(Request $request)
