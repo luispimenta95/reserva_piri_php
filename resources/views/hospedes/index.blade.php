@@ -13,17 +13,6 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-md-12">
-                @php
-                $success = Session()->get("success");
-                @endphp
-                @if ($success)
-                <div class="alert alert-success"> {{$success}}</div>
-                @endif
-            </div>
-        </div>
-
-        <div class="row">
             <div class="form group col-xl-12 col-lg-12 col-md-12 col-12 child-repeater-table">
                 <form action="{{url('/gerar')}}" method="POST" onsubmit="return validateForm()">
                     @csrf
