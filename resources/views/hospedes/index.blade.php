@@ -14,7 +14,7 @@
 
         <div class="row">
             <div class="form group col-xl-12 col-lg-12 col-md-12 col-12 child-repeater-table">
-                <form action="{{url('/gerar')}}" method="POST" onsubmit="return validateForm()">
+                <form action="{{url('/salvar-reserva')}}" method="POST" onsubmit="return validateForm()">
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-6">

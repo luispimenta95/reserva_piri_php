@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 
 
@@ -77,5 +78,18 @@ class AppController extends Controller
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
+    }
+
+    public function login()
+    {
+        return view('autenticacao.login');
+    }
+    public function validarLogin(Request $request)
+    {
+        $credentials = $request->only('cpf', 'password');
+        if (Auth::attempt($credentials)) {
+            return redirect()->route('reservas');
+        }
+        return redirect()->back()->withErrors('Usuário ou senha inválidos');
     }
 }
