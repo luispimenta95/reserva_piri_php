@@ -14,14 +14,13 @@ class AppController extends Controller
     public function gerarPdf(array $params)
     {
         $this->createFolder($params['camArquivo']);
-        $data = $this->tratarDados($params);
+        $data = $this->tratarDadosPdf($params);
 
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data);
 
 
         $pdf->save($params['camArquivo']  . $params['nomePdf']);
-        $mensagens = $this->mensagensSistema();
-        return view('hospedes.index')->with('message', $mensagens['reservaSolicitada']);
+        return view($params['modulo'] . '.index');
     }
     private function getDataAtual(): String
     {
@@ -37,14 +36,14 @@ class AppController extends Controller
 
     private function formatarCpf($cpf)
     {
-        $docFormatado = substr($cpf, 0, 3) . '.' .
+        $cpf = substr($cpf, 0, 3) . '.' .
             substr($cpf, 3, 3) . '.' .
             substr($cpf, 6, 3) . '-' .
             substr($cpf, 9, 2);
 
-        return $docFormatado;
+        return $cpf;
     }
-    private function tratarDados($params)
+    private function tratarDadosPdf($params)
     {
         $hosts = array();
         foreach ($params['hospedes'] as $hospede) {
@@ -78,14 +77,5 @@ class AppController extends Controller
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
-    }
-
-    public function mensagensSistema()
-    {
-        $mensagens = [
-            'reservaSolicitada' => " <div class=alert alert-success> Teste</div>",
-            'reservaCancelada' => '<div class="alert alert-danger" role="alert">Reserva cancelada com sucesso!</div>'
-        ];
-        return $mensagens;
     }
 }

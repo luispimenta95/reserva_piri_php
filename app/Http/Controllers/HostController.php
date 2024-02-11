@@ -46,6 +46,7 @@ class HostController extends Controller
         $data['hospedes'] = $hospedes;
         $data['camArquivo'] = public_path('pdf/reservas/');
         $data['nomePdf'] = 'Reserva_' . date("Y_m_d_his") . ".pdf";
+        $data['modulo'] = 'hospedes';
         // Fim das informacoes hospedes
 
         //Reserva
