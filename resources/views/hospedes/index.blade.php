@@ -30,9 +30,9 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Data de entrada</label>
-                            <input type='date' name='dataInicial' id="dataInicial" class='form-control' required />
+                            <input type='date' name='dataInicial' id="dataInicial" class='form-control' min="<?= date('Y-m-d'); ?>" required />
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class=" form-group col-md-6">
                             <label>Data de saída</label>
                             <input type='date' name='dataFinal' id="dataFinal" class='form-control' required />
                         </div>

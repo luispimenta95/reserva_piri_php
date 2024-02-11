@@ -44,12 +44,15 @@ class HostController extends Controller
         $data['dataInicial'] = $request->dataInicial;
         $data['dataFinal'] = $request->dataFinal;
         $data['hospedes'] = $hospedes;
+        $data['camArquivo'] = public_path('pdf/reservas/');
+        $data['nomePdf'] = 'Reserva_' . date("Y_m_d_his") . ".pdf";
         // Fim das informacoes hospedes
 
         //Reserva
         $informacoesReserva['dataInicial'] = $request->dataInicial;
         $informacoesReserva['dataFinal'] = $request->dataFinal;
         $informacoesReserva['hospedes'] = json_encode($idsHospedes);
+        $informacoesReserva['camArquivo'] = 'pdf/reservas/' . $data['nomePdf'];
 
         Database::table('reservas')->insert($informacoesReserva);
 

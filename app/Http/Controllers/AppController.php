@@ -13,8 +13,15 @@ class AppController extends Controller
 {
     public function gerarPdf(array $params)
     {
+        $this->createFolder($params['camArquivo']);
         $data = $this->tratarDados($params);
-        return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data)->stream();
+
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data);
+
+
+        $pdf->save($params['camArquivo']  . $params['nomePdf']);
+        $mensagens = $this->mensagensSistema();
+        return view('hospedes.index')->with('message', $mensagens['reservaSolicitada']);
     }
     private function getDataAtual(): String
     {
@@ -65,5 +72,20 @@ class AppController extends Controller
         ];
 
         return $data;
+    }
+    private function createFolder($path)
+    {
+        if (!is_dir($path)) {
+            mkdir($path, 0777, true);
+        }
+    }
+
+    public function mensagensSistema()
+    {
+        $mensagens = [
+            'reservaSolicitada' => " <div class=alert alert-success> Teste</div>",
+            'reservaCancelada' => '<div class="alert alert-danger" role="alert">Reserva cancelada com sucesso!</div>'
+        ];
+        return $mensagens;
     }
 }

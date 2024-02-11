@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('dataInicial');
             $table->date('dataFinal');
             $table->json('hospedes');
+            $table->string('camArquivo');
             $table->timestamps();
         });
     }
