@@ -42,20 +42,13 @@
                         <td>
                             <a href='' class="btn btn-warning btn-sm">Edit</a>
                             <a href='' class="btn btn-danger btn-sm">Del</a>
+                            <form action="/baixar-pdf">
+                                <input type="hidden" name="id" value="{{ $reserva->id }}" />
+                                <button type="submit" class="btn btn-success btn-sm">Baixar</button>
+                            </form>
+
                         </td>
                         @endforeach
-
-                        <!--
-                    <tr>
-                        <td>1</td>
-                        <td>1001</td>
-                        <td>Ani</td>
-                        <td>Ilmu Komputer</td>
-                        <td>Ilmu Komputer</td>
-
-                      
-                    </tr>
--->
                 </tbody>
             </table>
 

@@ -65,4 +65,10 @@ class HostController extends Controller
         $reservas = Reserva::all();
         return view('hospedes.reservas', ['reservas' => $reservas]);
     }
+    public function downloadPdf(Request $request)
+    {
+        $reserva = Reserva::find($request->id);
+        $file = public_path() . '/' . $reserva->camArquivo;
+        return response()->download($file);
+    }
 }
