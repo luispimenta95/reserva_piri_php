@@ -42,9 +42,9 @@
                         <td>
                             <a href='' class="btn btn-warning btn-sm">Edit</a>
                             <a href='' class="btn btn-danger btn-sm">Del</a>
-                            <form action="/baixar-pdf">
+                            <form action="/gerar-contrato">
                                 <input type="hidden" name="id" value="{{ $reserva->id }}" />
-                                <button type="submit" class="btn btn-success btn-sm">Baixar</button>
+                                <button type="submit" class="btn btn-success btn-sm">Gerar</button>
                             </form>
 
                         </td>

@@ -3,25 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Hospede;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Reserva;
 
 
 
 class AppController extends Controller
 {
-    public function gerarPdf(array $params)
+    public function gerarContrato(Request $request)
     {
-        $this->createFolder($params['camArquivo']);
-        $data = $this->tratarDadosPdf($params);
+        $reserva = Reserva::find($request->id);
+        $hospedes = Hospede::whereIn('id', array_map("intval", json_decode($reserva->hospedes)))->get();
+        $dados['reserva'] = $reserva;
+        $dados['hospedes'] = $hospedes;
+
+        $this->createFolder(public_path('pdf/reservas/'));
+        $data = $this->tratarDadosPdf($dados);
 
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data);
+        $nome = explode("/", $reserva->camArquivo)[2];
 
-
-        $pdf->save($params['camArquivo']  . $params['nomePdf']);
-        return view($params['modulo'] . '.index');
+        $pdf->save($reserva->camArquivo);
+        $file = public_path() . '/' . $reserva->camArquivo;
+        return response()->download($file);
     }
     private function getDataAtual(): String
     {
@@ -35,8 +43,9 @@ class AppController extends Controller
         return $dia . ' de ' . $months[$mes - 1] . ' de ' . $ano;
     }
 
-    private function formatarCpf($cpf)
+    private function formatarCpf($cpf): String
     {
+
         $cpf = substr($cpf, 0, 3) . '.' .
             substr($cpf, 3, 3) . '.' .
             substr($cpf, 6, 3) . '-' .
@@ -44,7 +53,7 @@ class AppController extends Controller
 
         return $cpf;
     }
-    private function tratarDadosPdf($params)
+    private function tratarDadosPdf(array $params): array
     {
         $hosts = array();
         foreach ($params['hospedes'] as $hospede) {
@@ -52,7 +61,6 @@ class AppController extends Controller
             $hospede['cpf'] = $this->formatarCpf($hospede['cpf']);
             array_push($hosts, $hospede);
         }
-
         $data = [
             'empresa' => config('app.empresa'),
             'nome' => config('app.nome'),
@@ -65,8 +73,8 @@ class AppController extends Controller
             'bloco' => config('app.bloco'),
             'tipo_quarto' => config('app.tipo'),
             'dia' =>  $this->getDataAtual(),
-            'dataInicial' =>  date('d/m/Y', strtotime($params['dataInicial'])),
-            'dataFinal' =>  date('d/m/Y', strtotime($params['dataFinal'])),
+            'dataInicial' =>  date('d/m/Y', strtotime($params['reserva']['dataInicial'])),
+            'dataFinal' =>  date('d/m/Y', strtotime($params['reserva']['dataFinal'])),
             'email' => config('app.email'),
             'hospedes' => $hosts
         ];

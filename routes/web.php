@@ -19,4 +19,4 @@ Route::get('/', [App::class, 'login']);
 Route::get('/iniciar', [Host::class, 'index']);
 Route::post('/salvar-reserva', [Host::class, 'receberDados']);
 Route::get('/reservas', [Host::class, 'show']);
-Route::get('/baixar-pdf', [Host::class, 'downloadPdf']);
+Route::get('/gerar-contrato', [App::class, 'gerarContrato']);

@@ -1,5 +1,5 @@
 <?php
-//Subindo branch development
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -46,7 +46,6 @@ class HostController extends Controller
         $data['hospedes'] = $hospedes;
         $data['camArquivo'] = public_path('pdf/reservas/');
         $data['nomePdf'] = 'Reserva_' . date("Y_m_d_his") . ".pdf";
-        $data['modulo'] = 'hospedes';
         // Fim das informacoes hospedes
 
         //Reserva
@@ -58,18 +57,13 @@ class HostController extends Controller
         Database::table('reservas')->insert($informacoesReserva);
 
         //Fim reserva
-        return $app->gerarPdf($data);
+
+        return view('hospedes.index');
     }
 
     public function show()
     {
         $reservas = Reserva::paginate(15);
         return view('hospedes.reservas', ['reservas' => $reservas]);
-    }
-    public function downloadPdf(Request $request)
-    {
-        $reserva = Reserva::find($request->id);
-        $file = public_path() . '/' . $reserva->camArquivo;
-        return response()->download($file);
     }
 }
