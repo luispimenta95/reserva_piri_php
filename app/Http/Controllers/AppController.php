@@ -17,18 +17,20 @@ class AppController extends Controller
     public function gerarContrato(Request $request)
     {
         $reserva = Reserva::find($request->id);
-        $hospedes = Hospede::whereIn('id', array_map("intval", json_decode($reserva->hospedes)))->get();
-        $dados['reserva'] = $reserva;
-        $dados['hospedes'] = $hospedes;
-
-        $this->createFolder(public_path('pdf/reservas/'));
-        $data = $this->tratarDadosPdf($dados);
-
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data);
-        $nome = explode("/", $reserva->camArquivo)[2];
-
-        $pdf->save($reserva->camArquivo);
         $file = public_path() . '/' . $reserva->camArquivo;
+        if (!file_exists($file)) {
+            $hospedes = Hospede::whereIn('id', array_map("intval", json_decode($reserva->hospedes)))->get();
+            $dados['reserva'] = $reserva;
+            $dados['hospedes'] = $hospedes;
+
+            $this->createFolder(public_path('pdf/reservas/'));
+            $data = $this->tratarDadosPdf($dados);
+
+            $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data);
+
+            $pdf->save($reserva->camArquivo);
+        }
+
         return response()->download($file);
     }
     private function getDataAtual(): String
