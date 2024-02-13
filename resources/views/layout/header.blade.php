@@ -9,5 +9,5 @@
     <link rel="icon" href="{{asset('logo.jpg') }}" type="image/x-icon" />
 
 
-    <title>| Quinta Santa Bárbara | Reservas |</title>
+    <title>| Gravações | PDF-Laravel 10 |</title>
 </head>
