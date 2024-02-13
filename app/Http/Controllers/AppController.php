@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Reserva;
+use App\Http\Controllers\ReservaController as ReservaController;
 
 
 
@@ -16,12 +17,13 @@ class AppController extends Controller
 {
     public function gerarContrato(Request $request)
     {
+        $reservaController = new ReservaController();
         $reserva = Reserva::find($request->id);
+
         $file = public_path() . '/' . $reserva->camArquivo;
         if (!file_exists($file)) {
-            $hospedes = Hospede::whereIn('id', array_map("intval", json_decode($reserva->hospedes)))->get();
             $dados['reserva'] = $reserva;
-            $dados['hospedes'] = $hospedes;
+            $dados['hospedes'] = $reservaController->getHospedesReserva($reserva);
 
             $this->createFolder(public_path('pdf/reservas/'));
             $data = $this->tratarDadosPdf($dados);

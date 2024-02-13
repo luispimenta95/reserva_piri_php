@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HostController as Host;
 use App\Http\Controllers\AppController as App;
+use App\Http\Controllers\ReservaController as Reserva;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +19,5 @@ use App\Http\Controllers\AppController as App;
 Route::get('/', [App::class, 'login']);
 Route::get('/iniciar', [Host::class, 'index']);
 Route::post('/salvar-reserva', [Host::class, 'receberDados']);
-Route::get('/reservas', [Host::class, 'show']);
+Route::get('/reservas', [Reserva::class, 'show']);
 Route::get('/gerar-contrato', [App::class, 'gerarContrato']);
