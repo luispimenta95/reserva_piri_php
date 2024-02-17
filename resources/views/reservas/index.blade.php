@@ -1,12 +1,8 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Data Mahasiswa</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-</head>
+@include('layout.header')
+
 
 <body class="bg-light">
 
@@ -42,9 +38,9 @@
                         <td>
                             <a href='' class="btn btn-warning btn-sm">Edit</a>
                             <a href='' class="btn btn-danger btn-sm">Del</a>
-                            <form action="/baixar-pdf">
+                            <form action="/gerar-contrato">
                                 <input type="hidden" name="id" value="{{ $reserva->id }}" />
-                                <button type="submit" class="btn btn-success btn-sm">Baixar</button>
+                                <button type="submit" class="btn btn-success btn-sm">Gerar</button>
                             </form>
 
                         </td>

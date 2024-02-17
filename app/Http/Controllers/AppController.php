@@ -3,25 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Hospede;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Reserva;
+use App\Http\Controllers\ReservaController as ReservaController;
 
 
 
 class AppController extends Controller
 {
-    public function gerarPdf(array $params)
+    public function gerarContrato(Request $request)
     {
-        $this->createFolder($params['camArquivo']);
-        $data = $this->tratarDadosPdf($params);
+        $reservaController = new ReservaController();
+        $reserva = Reserva::find($request->id);
 
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data);
+        $file = public_path() . '/' . $reserva->camArquivo;
+        if (!file_exists($file)) {
+            $dados['reserva'] = $reserva;
+            $dados['hospedes'] = $reservaController->getHospedesReserva($reserva);
 
+            $this->createFolder(public_path('pdf/reservas/'));
+            $data = $this->tratarDadosPdf($dados);
 
-        $pdf->save($params['camArquivo']  . $params['nomePdf']);
-        return view($params['modulo'] . '.index');
+            $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data);
+
+            $pdf->save($reserva->camArquivo);
+        }
+
+        return response()->download($file);
     }
     private function getDataAtual(): String
     {
@@ -35,8 +47,9 @@ class AppController extends Controller
         return $dia . ' de ' . $months[$mes - 1] . ' de ' . $ano;
     }
 
-    private function formatarCpf($cpf)
+    private function formatarCpf($cpf): String
     {
+
         $cpf = substr($cpf, 0, 3) . '.' .
             substr($cpf, 3, 3) . '.' .
             substr($cpf, 6, 3) . '-' .
@@ -44,7 +57,7 @@ class AppController extends Controller
 
         return $cpf;
     }
-    private function tratarDadosPdf($params)
+    private function tratarDadosPdf(array $params): array
     {
         $hosts = array();
         foreach ($params['hospedes'] as $hospede) {
@@ -52,7 +65,6 @@ class AppController extends Controller
             $hospede['cpf'] = $this->formatarCpf($hospede['cpf']);
             array_push($hosts, $hospede);
         }
-
         $data = [
             'empresa' => config('app.empresa'),
             'nome' => config('app.nome'),
@@ -65,8 +77,8 @@ class AppController extends Controller
             'bloco' => config('app.bloco'),
             'tipo_quarto' => config('app.tipo'),
             'dia' =>  $this->getDataAtual(),
-            'dataInicial' =>  date('d/m/Y', strtotime($params['dataInicial'])),
-            'dataFinal' =>  date('d/m/Y', strtotime($params['dataFinal'])),
+            'dataInicial' =>  date('d/m/Y', strtotime($params['reserva']['dataInicial'])),
+            'dataFinal' =>  date('d/m/Y', strtotime($params['reserva']['dataFinal'])),
             'email' => config('app.email'),
             'hospedes' => $hosts
         ];

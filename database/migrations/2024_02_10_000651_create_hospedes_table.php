@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('cpf');
             $table->string('email');
             $table->string('telefone');
-            $table->timestamps();
+            $table->timestamp('data_criacao')->useCurrent();
+            $table->timestamp('ultima_atualizacao')->nullable();
         });
     }
 

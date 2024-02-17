@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservas', function (Blueprint $table) {
+        Schema::create('administradores', function (Blueprint $table) {
             $table->id();
-            $table->date('dataInicial');
-            $table->date('dataFinal');
-            $table->json('hospedes');
-            $table->string('camArquivo');
+            $table->string('nome');
+            $table->string('cpf');
+            $table->string('email');
+            $table->string('senha');
             $table->timestamp('data_criacao')->useCurrent();
             $table->timestamp('ultima_atualizacao')->nullable();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservas');
+        Schema::dropIfExists('administradores');
     }
 };

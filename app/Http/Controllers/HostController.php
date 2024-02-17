@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as Database;
-use App\Models\Reserva;
+use App\Http\Controllers\ReservaController as Reserva;
 
 class HostController extends Controller
 {
@@ -15,7 +15,6 @@ class HostController extends Controller
     }
     public function receberDados(Request $request)
     {
-        $app = new AppController();
         $nome = $request->nome;
         $cpf = $request->cpf;
         $nascimento = $request->nascimento;
@@ -26,7 +25,6 @@ class HostController extends Controller
 
         $hospedes = array();
         $idsHospedes = array();
-        $informacoesReserva = [];
 
         for ($i = 0; $i < count($nome); $i++) {
             $informacoesHospedes = [
@@ -46,30 +44,15 @@ class HostController extends Controller
         $data['hospedes'] = $hospedes;
         $data['camArquivo'] = public_path('pdf/reservas/');
         $data['nomePdf'] = 'Reserva_' . date("Y_m_d_his") . ".pdf";
-        $data['modulo'] = 'hospedes';
         // Fim das informacoes hospedes
 
         //Reserva
-        $informacoesReserva['dataInicial'] = $request->dataInicial;
-        $informacoesReserva['dataFinal'] = $request->dataFinal;
-        $informacoesReserva['hospedes'] = json_encode($idsHospedes);
-        $informacoesReserva['camArquivo'] = 'pdf/reservas/' . $data['nomePdf'];
-
-        Database::table('reservas')->insert($informacoesReserva);
-
+        $dadosReserva['hospedes'] = json_encode($idsHospedes);
+        $dadosReserva['camArquivo'] = 'pdf/reservas/' . $data['nomePdf'];
+        $reserva = new Reserva();
+        $reserva->salvarReserva($request, $dadosReserva);
         //Fim reserva
-        return $app->gerarPdf($data);
-    }
 
-    public function show()
-    {
-        $reservas = Reserva::paginate(15);
-        return view('hospedes.reservas', ['reservas' => $reservas]);
-    }
-    public function downloadPdf(Request $request)
-    {
-        $reserva = Reserva::find($request->id);
-        $file = public_path() . '/' . $reserva->camArquivo;
-        return response()->download($file);
+        return view('hospedes.index');
     }
 }
