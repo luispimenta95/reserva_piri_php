@@ -21,6 +21,6 @@ Route::get('/', [App::class, 'login']);
 Route::get('/iniciar', [Host::class, 'index']);
 Route::post('/salvar-reserva', [Host::class, 'receberDados']);
 Route::get('/reservas', [Reserva::class, 'show']);
-Route::get('/gerar-contrato', [App::class, 'gerarContrato']);
+Route::get('/gerar-contrato/{id}', [App::class, 'gerarContrato']);
 Route::get('/admin', [Admin::class, 'index']);
-Route::get('/tabelas', [Admin::class, 'tabelas']);
+Route::get('/lista-reservas', [Admin::class, 'listaReservas']);

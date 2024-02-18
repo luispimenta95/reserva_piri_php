@@ -36,16 +36,14 @@
                         <td><?php echo date('d/m/Y', strtotime($reserva->dataInicial)) ?></td>
                         <td><?php echo date('d/m/Y', strtotime($reserva->dataFinal)) ?></td>
                         <td>
-                            <a href='' class="btn btn-warning btn-sm">Edit</a>
+                            <a href="<?= url('/gerar-pdf/{{$reserva->id}}'); ?>" class="btn btn-warning btn-sm">Edit</a>
                             <a href='' class="btn btn-danger btn-sm">Del</a>
-                            <form action="/gerar-contrato">
-                                <input type="hidden" name="id" value="{{ $reserva->id }}" />
-                                <button type="submit" class="btn btn-success btn-sm">Gerar</button>
-                            </form>
+
 
                         </td>
                         @endforeach
-                        {{ $reservas->links()}}
+                    </tr>
+                    {{ $reservas->links()}}
                 </tbody>
             </table>
 
