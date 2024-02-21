@@ -197,7 +197,8 @@ return [
     'bloco' => env('BLOCO'),
     'tipo' => env('TIPO_UNIDADE'),
     'email' => env('EMAIL_DONA'),
-    'assinatura' => env('PATH_ASSINATURA')
+    'assinatura' => env('PATH_ASSINATURA'),
+    'pathPdfs' => env('PATH_PDFS')
 
     //FIM VARIAVEIS DO PDF
 ];

@@ -27,7 +27,7 @@ class ReservaController extends Controller
         $informacoesReserva['dataInicial'] = $request->dataInicial;
         $informacoesReserva['dataFinal'] = $request->dataFinal;
         $informacoesReserva['hospedes'] = $params['hospedes'];
-        $informacoesReserva['camArquivo'] = $params['camArquivo'];
+        $informacoesReserva['nomePdf'] = $params['nomePdf'];
 
         Database::table('reservas')->insert($informacoesReserva);
     }

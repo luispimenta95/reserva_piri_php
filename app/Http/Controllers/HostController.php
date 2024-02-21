@@ -42,13 +42,12 @@ class HostController extends Controller
         $data['dataInicial'] = $request->dataInicial;
         $data['dataFinal'] = $request->dataFinal;
         $data['hospedes'] = $hospedes;
-        $data['camArquivo'] = public_path('pdf/reservas/');
-        $data['nomePdf'] = 'Reserva_' . date("Y_m_d_his") . ".pdf";
         // Fim das informacoes hospedes
 
         //Reserva
         $dadosReserva['hospedes'] = json_encode($idsHospedes);
-        $dadosReserva['camArquivo'] = 'pdf/reservas/' . $data['nomePdf'];
+        $dadosReserva['camArquivo'] = 'pdf/reservas/';
+        $dadosReserva['nomePdf'] = 'Reserva_' . date("Y_m_d_his") . ".pdf";
         $reserva = new Reserva();
         $reserva->salvarReserva($request, $dadosReserva);
         //Fim reserva

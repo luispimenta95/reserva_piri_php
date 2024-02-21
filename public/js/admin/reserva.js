@@ -5,11 +5,11 @@ $(".download").click(function () {
     console.log(id);
 
     $.ajax({
-        url: "/gerar-contrato/" + id,
+        url: "/gerar-contrato",
         dataType: "json",
         data: { id: id },
-        success: function (data) {
-            console.log(data);
+        success: function (response) {
+            alert("Download completed successfully");
         },
     });
 });

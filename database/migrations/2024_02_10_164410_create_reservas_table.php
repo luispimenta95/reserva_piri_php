@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('dataInicial');
             $table->date('dataFinal');
             $table->json('hospedes');
-            $table->string('camArquivo');
+            $table->string('nomePdf');
             $table->timestamp('data_criacao')->useCurrent();
             $table->timestamp('ultima_atualizacao')->nullable();
         });

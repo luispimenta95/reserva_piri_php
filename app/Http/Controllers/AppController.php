@@ -19,21 +19,33 @@ class AppController extends Controller
     {
         $reservaController = new ReservaController();
         $reserva = Reserva::find($request->id);
+        $path = public_path() . config('app.pathPdfs');
 
-        $file = public_path() . '/' . $reserva->camArquivo;
-        if (!file_exists($file)) {
-            $dados['reserva'] = $reserva;
-            $dados['hospedes'] = $reservaController->getHospedesReserva($reserva);
+        $file =  $path . $reserva->nomePdf;
+        try {
+            if (file_exists($file)) {
+                $dados['reserva'] = $reserva;
+                $dados['hospedes'] = $reservaController->getHospedesReserva($reserva);
 
-            $this->createFolder(public_path('pdf/reservas/'));
-            $data = $this->tratarDadosPdf($dados);
+                $this->createFolder($path);
+                $data = $this->tratarDadosPdf($dados);
 
-            $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data);
+                $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.document', $data);
 
-            $pdf->save($reserva->camArquivo);
+                $pdf->save($path . $reserva->nomePdf);
+                return $pdf->download($reserva->nomePdf);
+            }
+        } catch (\Exception $e) {
+            return [
+                'error' => $e->getMessage()
+            ];
         }
 
-        $this->downloadFile($file);
+        return [
+            'status' => 'success',
+            'path' =>  $path .  $reserva->nomePdf,
+            'nome' => $reserva->nomePdf
+        ];
     }
     private function getDataAtual(): String
     {
@@ -103,22 +115,5 @@ class AppController extends Controller
             return redirect()->route('reservas');
         }
         return redirect()->back()->withErrors('Usuário ou senha inválidos');
-    }
-
-    private function downloadFile($file)
-    {
-        if (file_exists($file)) {
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header("Content-Type: application/force-download");
-            header('Content-Disposition: attachment; filename=' . urlencode(basename($file)));
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($file));
-            ob_clean();
-            flush();
-            readfile($file);
-        }
     }
 }
